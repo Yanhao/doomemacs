@@ -233,8 +233,10 @@ directives. By default, this only recognizes C directives.")
   ;; Lazy load evil ex commands
   (delq! 'evil-ex features)
   (add-transient-hook! 'evil-ex (provide 'evil-ex))
-  (after! evil-ex (load! "+commands")))
+  (after! evil-ex (load! "+commands"))
 
+  (map! :nv  "C-e" #'end-of-line)
+  (map! :nv  "M-." #'+lookup/definition))
 
 ;;
 ;;; Packages
