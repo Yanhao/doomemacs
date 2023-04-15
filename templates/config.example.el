@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Yanhao Mo"
+      user-mail-address "yanhaocs@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-solarized-light)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -42,6 +42,9 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
+(setq
+ doom-leader-key ","
+ doom-localleader-key ", m")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -74,3 +77,34 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(map! :leader :desc "Treemacs window" :n "d" #'treemacs-select-window)
+(map! :leader :desc "consel-M-x" :n "," #'counsel-M-x)
+(map! :leader :desc "Recent files" :n "r" #'counsel-recentf)
+(map! :leader :desc "Find files" :n "f" #'find-file)
+(map! :leader :desc "Switch to buffers" :n "b" #'ivy-switch-buffer)
+(map! :leader :desc "Magit status" :n "g" #'magit-status)
+(map! :leader :desc "Comments" :n "cc" #'comment-region)
+(map! :leader :desc "Uncomments" :n "cu" #'uncomment-region)
+(map! "M-o" #'ace-window)
+(map! "M-s" #'counsel-rg)
+(map! "C-s" #'swiper)
+(map! "M-v" #'vterm)
+(map! "M-k" #'delete-other-windows)
+
+(map! "C-\\" #'er/expand-region)
+(after! evil-escape (setq evil-escape-key-sequence "jj"))
+
+(add-hook! 'python-mode-hook (modify-syntax-entry ?_ "w"))
+(add-hook! 'ruby-mode-hook (modify-syntax-entry ?_ "w"))
+(add-hook! 'js2-mode-hook (modify-syntax-entry ?_ "w"))
+
+(after! lsp-clangd
+  (setq lsp-clients-clangd-args
+        '("-j=3"
+          "--background-index"
+          "--clang-tidy"
+          "--completion-style=detailed"
+          "--header-insertion=never"
+          "--header-insertion-decorators=0"))
+  (set-lsp-priority! 'clangd 2))
